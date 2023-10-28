@@ -44,6 +44,7 @@ class SearchTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String query = '';
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),
@@ -69,6 +70,7 @@ class SearchTab extends StatelessWidget {
                 ),
                 width: 300, // Adjust the width as needed
                 child: TextField(
+                  onChanged: (value) => query = value,
                   onSubmitted: (value) {
                     _searchMovies(value).then((response) {
                       if (response.statusCode == 200) {
@@ -108,7 +110,71 @@ class SearchTab extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Pesquisa',
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: IconButton(
+                        color: Colors.black,
+                        icon: Icon(Icons.search),
+                        onPressed: () => {
+                              if (query.isEmpty)
+                                {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'Cancel'),
+                                                child: const Text('OK'),
+                                              )
+                                            ],
+                                            title: const Text(
+                                                'Por favor insira um termo de pesquisa'),
+                                          ))
+                                }
+                              else
+                                {
+                                  _searchMovies(query).then((response) {
+                                    if (response.statusCode == 200) {
+                                      List<dynamic> content = [];
+                                      List<dynamic> content2 = [];
+                                      var body = jsonDecode(response.body);
+                                      body['results'].forEach((item) {
+                                        if (item['media_type'] == 'tv') {
+                                          content.add(TvSeries.fromJson(item));
+                                          if (!content2
+                                              .contains(['media_type'])) {
+                                            content2.add(TvSeries.fromJson(item)
+                                                .runtimeType);
+                                          }
+                                        }
+                                        if (item['media_type'] == 'movie') {
+                                          content.add(Movie.fromJson(item));
+                                          if (!content2
+                                              .contains(['media_type'])) {
+                                            content2.add(Movie.fromJson(item)
+                                                .runtimeType);
+                                          }
+                                        }
+                                        if (item['media_type'] == 'person') {
+                                          content.add(Person.fromJson(item));
+                                          if (!content2
+                                              .contains(['media_type'])) {
+                                            content2.add(Person.fromJson(item)
+                                                .runtimeType);
+                                          }
+                                        }
+                                      });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ContentView(
+                                                  content, 'Search Results')));
+                                    } else {
+                                      print(response.statusCode);
+                                    }
+                                  })
+                                }
+                            }),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
