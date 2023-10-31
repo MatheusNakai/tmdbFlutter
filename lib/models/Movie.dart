@@ -2,8 +2,13 @@ class Movie {
   final String name;
   final String posterPath;
   final int id;
+  final String overview;
 
-  Movie({required this.name, required this.posterPath, required this.id});
+  Movie(
+      {required this.name,
+      required this.posterPath,
+      required this.id,
+      required this.overview});
 
   factory Movie.fromJson(Map json) {
     if (json['poster_path'] == null) {
@@ -17,6 +22,7 @@ class Movie {
       name: json['title'],
       posterPath: json['poster_path'],
       id: json['id'],
+      overview: json['overview'],
     );
   }
 }

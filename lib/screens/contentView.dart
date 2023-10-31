@@ -55,16 +55,27 @@ class _ContentView extends State<ContentView> {
               itemCount: content.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  child: Card(
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF222222),
+                      border: Border.all(
+                        color: Colors.red,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
                     margin: const EdgeInsets.all(5),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         ListTileTheme(
                           tileColor: Color(0xFF222222),
                           child: ListTile(
+                            contentPadding: EdgeInsets.all(15),
                             style: ListTileStyle.list,
-                            leading: Image.network(content[index].posterPath),
+                            leading: Image.network(content[index].posterPath,
+                                height: 100, width: 70),
                             title: Text(
                               content[index].name,
                               textAlign: TextAlign.left,
