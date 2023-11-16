@@ -55,42 +55,43 @@ class _ContentView extends State<ContentView> {
               itemCount: content.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  child: Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF222222),
-                      border: Border.all(
-                        color: Colors.red,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    margin: const EdgeInsets.all(5),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        ListTileTheme(
-                          tileColor: Color(0xFF222222),
-                          child: ListTile(
-                            contentPadding: EdgeInsets.all(15),
-                            style: ListTileStyle.list,
-                            leading: Image.network(content[index].posterPath,
-                                height: 100, width: 70),
-                            title: Text(
-                              content[index].name,
-                              textAlign: TextAlign.left,
-                              textDirection: TextDirection.ltr,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                              strutStyle: StrutStyle(height: 3.5),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.all(10.0),
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF222222),
+                            border: Border.all(
+                              color: Colors.red,
+                              width: 2.0,
                             ),
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
-                        )
-                      ],
-                    ),
+                          child: ListTileTheme(
+                            tileColor: Color(0xFF222222),
+                            child: ListTile(
+                              dense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 10.0),
+                              style: ListTileStyle.drawer,
+                              leading: Image.network(content[index].posterPath,
+                                  height: 300, width: 80, fit: BoxFit.fill),
+                              title: Text(
+                                content[index].name,
+                                textAlign: TextAlign.left,
+                                textDirection: TextDirection.ltr,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                                strutStyle: StrutStyle(height: 3.5),
+                              ),
+                            ),
+                          ))
+                    ],
                   ),
                   onTap: () {
                     var image = "https://image.tmdb.org/t/p/original";
